@@ -1,4 +1,4 @@
-
+//in this challenge a while is very convenient
 fn main() {
     let x = r"1
 2
