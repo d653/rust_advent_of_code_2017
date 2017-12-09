@@ -1507,16 +1507,14 @@ soxzrwm (83)
         let v = re1.captures_iter(l).next().unwrap();
         w.insert(v[1].into(),v[2].parse().unwrap());
         
+        let mut c = Vec::new();
         if let Some(v2) = re2.captures_iter(l).next() {
-            let mut c = Vec::new();
             for s in v2[1].split(", ") {
                 top.insert(s.into(),v[1].into());
                 c.push(s.into());
             }
-            toc.insert(v[1].into(),c);
-        }else{
-            toc.insert(v[1].into(),Vec::new());
         }
+        toc.insert(v[1].into(),c);
         
     }
     
@@ -1544,6 +1542,5 @@ fn weight(w : &HashMap<String,i32>, toc : &HashMap<String,Vec<String>>, cur : St
     
     ws.iter().map(|&(_,b)|b).sum::<i32>() + w[&cur]
 }
-
 
 
