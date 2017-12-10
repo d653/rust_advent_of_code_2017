@@ -13,23 +13,29 @@ fn main() {
     let mut count = 0;
     
     for c in x.chars() {
-        if let State::GOOD = s {
-            match c {
-                '{' => { score += 1; },
-                '}' => { tot += score; score -= 1;},
-                '<' => { s = State::GARBAGE; },
-                _ => {}
-            }
-        } else if let State::GARBAGE = s {
-            match c {
-                '!' => { s = State::SKIP; },
-                '>' => { s = State::GOOD; },
-                _ => {}
-            }
-            if let State::GARBAGE = s { count += 1; }
-        } else if let State::SKIP = s {
-            s = State::GARBAGE;
+    
+        match s {
+        
+            State::GOOD =>
+                match c {
+                    '{' => { score += 1; },
+                    '}' => { tot += score; score -= 1;},
+                    '<' => { s = State::GARBAGE; },
+                    _ => {}
+                },
+                
+            State::GARBAGE => {
+                match c {
+                    '!' => { s = State::SKIP; },
+                    '>' => { s = State::GOOD; },
+                    _ => {}
+                }
+                if let State::GARBAGE = s { count += 1; }
+            },
+            
+            State::SKIP => { s = State::GARBAGE; }
         }
+        
     }
     println!("{} {}",tot,count);
 
