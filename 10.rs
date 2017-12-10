@@ -22,7 +22,6 @@ fn main(){
     println!("{}",solve(0,&v)*solve(1,&v));
     
     //part 2 (reusing solution of part 1, not optimal...)
-    let s = "157,222,1,2,177,254,0,228,159,140,249,187,255,51,76,30";
     let s2 = "17, 31, 73, 47, 23";
     let v2 = s2.split(", ")
         .map(|x|x.parse().unwrap())
