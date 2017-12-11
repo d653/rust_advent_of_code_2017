@@ -524,7 +524,11 @@ lpyubo dylpfb iehwug decj ntidy cuygyg lalkb iutu oxgm imn";
     let r2 = input.lines().filter(|l|{
         let c1 = l.split_whitespace().count();
         let c2 = l.split_whitespace()
-            .map(|s|{s.chars().collect::<BTreeSet<_>>()})
+            //collecting to a multiset would be optimal (the alphabet size is fixed)
+            //for the given input a set works anyway
+            //.map(|s|{s.chars().collect::<BTreeSet<_>>()})
+            //sorting the characters is slightly worse
+            .map(|s|{let mut r = s.chars().collect::<Vec<_>>();r.sort();r})
             .collect::<HashSet<_>>().len();
         c1 == c2
     }).count();
