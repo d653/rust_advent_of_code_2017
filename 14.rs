@@ -59,8 +59,8 @@ fn main(){
                 let x = x as i32;
                 [(0i32,1i32),(1,0),(-1,0),(0,-1)].iter().map(|&(a,b)|{(x/128+a,x%128 + b)})
                 .filter(|&(a,b)|(0..128).contains(a)&&(0..128).contains(b))
-                .map(|(a,b)|128*a+b).filter(|&n|!b[n as usize])
-                .for_each(|n|v.push(n as usize));
+                .map(|(a,b)|(128*a+b) as usize).filter(|&n|!b[n])
+                .for_each(|n|v.push(n));
             }
         }
         count += 1;
@@ -69,5 +69,4 @@ fn main(){
     println!("{}",count);
     
 }
-
 
