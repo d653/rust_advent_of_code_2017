@@ -1,3 +1,7 @@
+extern crate petgraph;
+use petgraph::graph::Graph;
+use petgraph::Undirected;
+
 fn main(){
   let x = r"0 <-> 1543
 1 <-> 66, 1682
@@ -2000,31 +2004,19 @@ fn main(){
 1998 <-> 1042, 1127, 1291, 1568
 1999 <-> 433, 1714";
 
-    let m : Vec<Vec<usize>> = x.lines().map(|l|{
-        l.split("<-> ").nth(1).unwrap().split(", ").map(|n|n.parse().unwrap()).collect()
-    }).collect();
+    let g = Graph::<u32, usize,Undirected>::from_edges(
+        x.lines().flat_map(|l|{
+            let mut s = l.split(" <-> ");
+            let i : u32 = s.next().unwrap().parse().unwrap();
+            s.next().unwrap().split(", ").map(move |n|(i as u32,n.parse::<u32>().unwrap()))
+        }));
     
-    let mut b = [false;2000];
-    let mut v = Vec::new();
-    let mut p = 0;
-    let mut count = 0;
-    
-    'outer: loop{
-        v.push(p);
-        while let Some(x) = v.pop() {
-            if !b[x] {
-                b[x] = true;
-                m[x].iter().filter(|&&n|!b[n]).for_each(|&n|v.push(n));
-            }
-        }
-        if count == 0 {
-            let r : u32 = b.iter().map(|&x|x as u32).sum();
-            println!("{}",r);
-        }
-        count += 1;
-        while b[p] { p+=1; if p >= b.len() {break 'outer; }}
-    }
-    
-    println!("{}",count);
-    
+    let g2 = petgraph::algo::condensation(g,false);
+    println!("{} {}",
+        g2.node_weight(g2.node_indices().last().unwrap()).unwrap().len(),
+        g2.node_count());
+        
+    //for all components:
+    //g.node_indices().enumerate().for_each(|(i,x)|{*g.node_weight_mut(x).unwrap() = i as u32;});
+    //g2.node_weights_mut().for_each(|w|println!("{} {:?}",w.len(),w));
 }
