@@ -1,6 +1,4 @@
 #![feature(conservative_impl_trait)]
-extern crate itertools;
-use itertools::Itertools;
 
 fn gen_iter<'a>(state:&'a mut u64, mult : u64) -> impl Iterator<Item=u64> + 'a {
     (0..).map(move |_|{
