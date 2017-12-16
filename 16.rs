@@ -30,8 +30,8 @@ fn main(){
         unreachable!();
     }).collect::<Vec<_>>();
     
-    let mut hm1 = HashMap::new();
-    let mut hm2 = HashMap::new();
+    let mut hm = HashMap::new();
+    let mut r2 = Vec::new();
     
     'outer: for i in 0..1_000_000_000 {
         for &(op,p1,p2) in ops.iter() {
@@ -51,16 +51,16 @@ fn main(){
         }
         
         let s = (off..off+sz).map(|i|(a[i%sz]as u8+b'a')as char).collect::<String>();
-        if hm1.contains_key(&s) {
-            let cs = hm1[&s];
+        if i==0 { println!("{}",s); }
+
+        if let Some(cs) = hm.get(&s) {
             let cl = i-cs;
             let t = cs + (1_000_000_000-cs-1) % cl;
-            println!("{}",hm2[&t]);
+            println!("{}",r2[t as usize]);
             break 'outer;
         }
-        if i==0 { println!("{}",s); }
-        hm1.insert(s.clone(),i);
-        hm2.insert(i,s);
+        hm.insert(s.clone(),i);
+        r2.push(s);
     }
 
 
