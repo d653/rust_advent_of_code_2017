@@ -2,8 +2,9 @@
 
 fn gen_iter<'a>(init:u64, mult : u64) -> impl Iterator<Item=u64> + 'a {
     (0..).scan(init,move |state,_|{
+        let ret = Some(*state&0x0ffff);
         *state = (*state*mult)%2147483647;
-        Some(*state&0x0ffff)
+        ret
     })
 }
 
@@ -15,7 +16,7 @@ fn main(){
     let a1 = gen_iter(s1, m1);
     let b1 = gen_iter(s2, m2);
 
-    let r1 = a1.zip(b1).take(it1-1).filter(|&(x,y)|{x==y}).count();
+    let r1 = a1.zip(b1).take(it1).filter(|&(x,y)|{x==y}).count();
     println!("{}",r1);
     
     //part 2
