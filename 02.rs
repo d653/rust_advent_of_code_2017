@@ -19,19 +19,33 @@ fn main() {
 851	132	939	1563	539	1351	1147	117	1484	100	123	490	152	798	1476	543
 1158	2832	697	113	121	397	1508	118	2181	2122	809	2917	134	2824	3154	2791
 ";
-    let m = input.lines().map(
-        |l|l.split_whitespace()
-            .map(|s|s.parse::<u32>().unwrap()).collect::<Vec<_>>())
-        .collect::<Vec<_>>();
     
-    let r1 :u32 = m.iter().map(
-        |v|v.iter().minmax().into_option().map(|(min,max)|max-min).unwrap())
+    let m = input
+        .lines()
+        .map(|l| {
+            l.split_whitespace()
+                .map(|s| s.parse::<u32>().unwrap())
+                .collect::<Vec<_>>()
+        })
+        .collect::<Vec<_>>();
+
+    let r1: u32 = m.iter()
+        .map(|v| {
+            v.iter()
+                .minmax()
+                .into_option()
+                .map(|(min, max)| max - min)
+                .unwrap()
+        })
         .sum();
-            
-    let r2 :u32 = m.iter().map(
-        |v|v.iter().cartesian_product(v.iter())
-        .map(|(&a,&b)| if a!=b&&a%b == 0 { a/b }else{0})
-        .sum::<u32>())
+
+    let r2: u32 = m.iter()
+        .map(|v| {
+            v.iter()
+                .cartesian_product(v.iter())
+                .map(|(&a, &b)| if a != b && a % b == 0 { a / b } else { 0 })
+                .sum::<u32>()
+        })
         .sum();
     
     println!("{} {}",r1,r2);
